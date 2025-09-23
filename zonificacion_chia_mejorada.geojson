@@ -1,0 +1,245 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Centro Histórico",
+        "codigo": "ZCH",
+        "descripcion": "Zona de conservación del centro histórico",
+        "usos": "Comercial, Cultural, Residencial",
+        "altura_max": "3 pisos",
+        "color": "#FF4757",
+        "border_color": "#2C3E50",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0535,
+              4.8635
+            ],
+            [
+              -74.0515,
+              4.8635
+            ],
+            [
+              -74.0515,
+              4.8655
+            ],
+            [
+              -74.0535,
+              4.8655
+            ],
+            [
+              -74.0535,
+              4.8635
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Residencial Norte (Yerbabuena)",
+        "codigo": "ZRN",
+        "descripcion": "Área residencial de estratos medios-altos",
+        "usos": "Residencial, Comercio barrial",
+        "altura_max": "4 pisos",
+        "color": "#2ECC71",
+        "border_color": "#27AE60",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0545,
+              4.8655
+            ],
+            [
+              -74.0505,
+              4.8655
+            ],
+            [
+              -74.0505,
+              4.8685
+            ],
+            [
+              -74.0545,
+              4.8685
+            ],
+            [
+              -74.0545,
+              4.8655
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Industrial (Fusca)",
+        "codigo": "ZI",
+        "descripcion": "Área destinada a actividades industriales",
+        "usos": "Industrial, Logística",
+        "altura_max": "Sin restricción",
+        "color": "#95A5A6",
+        "border_color": "#7F8C8D",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0475,
+              4.8605
+            ],
+            [
+              -74.0435,
+              4.8605
+            ],
+            [
+              -74.0435,
+              4.8635
+            ],
+            [
+              -74.0475,
+              4.8635
+            ],
+            [
+              -74.0475,
+              4.8605
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Verde Protegida (La Balsa)",
+        "codigo": "ZVP",
+        "descripcion": "Área de conservación ambiental",
+        "usos": "Conservación, Recreación pasiva",
+        "altura_max": "No aplica",
+        "color": "#27AE60",
+        "border_color": "#1E8449",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0575,
+              4.8605
+            ],
+            [
+              -74.0545,
+              4.8605
+            ],
+            [
+              -74.0545,
+              4.8635
+            ],
+            [
+              -74.0575,
+              4.8635
+            ],
+            [
+              -74.0575,
+              4.8605
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Comercial (Bojacá)",
+        "codigo": "ZC",
+        "descripcion": "Corredor comercial principal",
+        "usos": "Comercial, Servicios, Oficinas",
+        "altura_max": "5 pisos",
+        "color": "#F39C12",
+        "border_color": "#D68910",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0525,
+              4.8605
+            ],
+            [
+              -74.0485,
+              4.8605
+            ],
+            [
+              -74.0485,
+              4.8625
+            ],
+            [
+              -74.0525,
+              4.8625
+            ],
+            [
+              -74.0525,
+              4.8605
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Mixta (Fagua)",
+        "codigo": "ZM",
+        "descripcion": "Zona de usos mixtos residencial-comercial",
+        "usos": "Residencial, Comercial, Servicios",
+        "altura_max": "4 pisos",
+        "color": "#E67E22",
+        "border_color": "#CA6F1E",
+        "border_weight": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.0585,
+              4.8655
+            ],
+            [
+              -74.0555,
+              4.8655
+            ],
+            [
+              -74.0555,
+              4.8685
+            ],
+            [
+              -74.0585,
+              4.8685
+            ],
+            [
+              -74.0585,
+              4.8655
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Centro Histórico",
+        "codigo": "ZCH",
+        "descripcion": "Zona de conservación del centro histórico",
+        "usos": "Comercial, Cultural, Residencial",
+        "altura_max": "3 pisos",
+        "color": "#FF6B6B"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.053,
+              4.8641
+            ],
+            [
+              -74.052,
+              4.8641
+            ],
+            [
+              -74.052,
+              4.8651
+            ],
+            [
+              -74.053,
+              4.8651
+            ],
+            [
+              -74.053,
+              4.8641
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Residencial Norte",
+        "codigo": "ZRN",
+        "descripcion": "Área residencial de estratos medios-altos",
+        "usos": "Residencial, Comercio barrial",
+        "altura_max": "4 pisos",
+        "color": "#4ECDC4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.054,
+              4.8651
+            ],
+            [
+              -74.051,
+              4.8651
+            ],
+            [
+              -74.051,
+              4.8671
+            ],
+            [
+              -74.054,
+              4.8671
+            ],
+            [
+              -74.054,
+              4.8651
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Industrial",
+        "codigo": "ZI",
+        "descripcion": "Área destinada a actividades industriales",
+        "usos": "Industrial, Logística",
+        "altura_max": "Sin restricción",
+        "color": "#95A5A6"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.057,
+              4.8611
+            ],
+            [
+              -74.054,
+              4.8611
+            ],
+            [
+              -74.054,
+              4.8631
+            ],
+            [
+              -74.057,
+              4.8631
+            ],
+            [
+              -74.057,
+              4.8611
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Verde Protegida",
+        "codigo": "ZVP",
+        "descripcion": "Área de conservación ambiental",
+        "usos": "Conservación, Recreación pasiva",
+        "altura_max": "No aplica",
+        "color": "#2ECC71"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.05,
+              4.8611
+            ],
+            [
+              -74.047,
+              4.8611
+            ],
+            [
+              -74.047,
+              4.8641
+            ],
+            [
+              -74.05,
+              4.8641
+            ],
+            [
+              -74.05,
+              4.8611
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Zona Comercial",
+        "codigo": "ZC",
+        "descripcion": "Corredor comercial principal",
+        "usos": "Comercial, Servicios, Oficinas",
+        "altura_max": "5 pisos",
+        "color": "#F39C12"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.052,
+              4.8611
+            ],
+            [
+              -74.049,
+              4.8611
+            ],
+            [
+              -74.049,
+              4.8621
+            ],
+            [
+              -74.052,
+              4.8621
+            ],
+            [
+              -74.052,
+              4.8611
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Código,Nombre,Usos,Altura Máxima
+ZCH,Centro Histórico,"Comercial, Cultural, Residencial",3 pisos
+ZRN,Zona Residencial Norte,"Residencial, Comercio barrial",4 pisos
+ZI,Zona Industrial,"Industrial, Logística",Sin restricción
+ZVP,Zona Verde Protegida,"Conservación, Recreación pasiva",No aplica
+ZC,Zona Comercial,"Comercial, Servicios, Oficinas",5 pisos

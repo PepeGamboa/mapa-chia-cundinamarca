@@ -1,0 +1,7 @@
+Código,Nombre,Descripción,Usos,Altura Máxima,Color
+ZCH,Centro Histórico,Zona de conservación del centro histórico,"Comercial, Cultural, Residencial",3 pisos,#FF4757
+ZRN,Zona Residencial Norte (Yerbabuena),Área residencial de estratos medios-altos,"Residencial, Comercio barrial",4 pisos,#2ECC71
+ZI,Zona Industrial (Fusca),Área destinada a actividades industriales,"Industrial, Logística",Sin restricción,#95A5A6
+ZVP,Zona Verde Protegida (La Balsa),Área de conservación ambiental,"Conservación, Recreación pasiva",No aplica,#27AE60
+ZC,Zona Comercial (Bojacá),Corredor comercial principal,"Comercial, Servicios, Oficinas",5 pisos,#F39C12
+ZM,Zona Mixta (Fagua),Zona de usos mixtos residencial-comercial,"Residencial, Comercial, Servicios",4 pisos,#E67E22

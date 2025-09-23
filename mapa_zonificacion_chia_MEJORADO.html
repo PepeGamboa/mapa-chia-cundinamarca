@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a6c02812f6ba7126130d408df45451bc {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; 
+                top: 10px; right: 10px; width: 250px; height: auto; 
+                background-color: rgba(255, 255, 255, 0.95); 
+                border: 2px solid #2C3E50; 
+                border-radius: 10px;
+                z-index: 9999; 
+                font-size: 13px; 
+                padding: 15px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                font-family: Arial, sans-serif;">
+    <h3 style="margin-top: 0; text-align: center; color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 5px;">
+        🗺️ Zonificación Chía
+    </h3>
+    
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #FF4757; 
+                        border: 2px solid #2C3E50; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZCH</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Centro Histórico</span>
+            </div>
+        </div>
+        
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #2ECC71; 
+                        border: 2px solid #27AE60; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZRN</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Zona Residencial Norte (Yerbabuena)</span>
+            </div>
+        </div>
+        
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #95A5A6; 
+                        border: 2px solid #7F8C8D; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZI</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Zona Industrial (Fusca)</span>
+            </div>
+        </div>
+        
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #27AE60; 
+                        border: 2px solid #1E8449; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZVP</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Zona Verde Protegida (La Balsa)</span>
+            </div>
+        </div>
+        
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #F39C12; 
+                        border: 2px solid #D68910; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZC</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Zona Comercial (Bojacá)</span>
+            </div>
+        </div>
+        
+        <div style="margin: 8px 0; display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: #E67E22; 
+                        border: 2px solid #CA6F1E; margin-right: 8px; border-radius: 3px;"></div>
+            <div>
+                <strong style="color: #2C3E50;">ZM</strong><br>
+                <span style="font-size: 11px; color: #7F8C8D;">Zona Mixta (Fagua)</span>
+            </div>
+        </div>
+        
+    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #BDC3C7; font-size: 11px; color: #7F8C8D; text-align: center;">
+        💡 Haz clic en las zonas para más información
+    </div>
+    </div>
+    
+    <div style="position: fixed; 
+                top: 60px; left: 10px; width: 80px; height: 80px; 
+                background-color: rgba(255, 255, 255, 0.9); 
+                border: 2px solid #2C3E50; 
+                border-radius: 50%;
+                z-index: 9999; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                font-family: Arial, sans-serif;">
+        <div style="text-align: center;">
+            <div style="font-size: 24px; font-weight: bold; color: #E74C3C; margin-bottom: -5px;">▲</div>
+            <div style="font-size: 12px; font-weight: bold; color: #2C3E50;">N</div>
+        </div>
+    </div>
+    
+    
+            <div class="folium-map" id="map_a6c02812f6ba7126130d408df45451bc" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a6c02812f6ba7126130d408df45451bc = L.map(
+                "map_a6c02812f6ba7126130d408df45451bc",
+                {
+                    center: [4.8641, -74.0519],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_ef89f02c94040d3511428a294a9782d5 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_ef89f02c94040d3511428a294a9782d5.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var tile_layer_382b1093aaa55902c9b58739c7f94a43 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_382b1093aaa55902c9b58739c7f94a43.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var tile_layer_cecdf786336fedec1f907a873c7eda2e = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_cecdf786336fedec1f907a873c7eda2e.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+        function geo_json_ce5273d949646acd4fdc5275142f977d_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#2C3E50", "fillColor": "#FF4757", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_ce5273d949646acd4fdc5275142f977d_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_ce5273d949646acd4fdc5275142f977d = L.geoJson(null, {
+                onEachFeature: geo_json_ce5273d949646acd4fdc5275142f977d_onEachFeature,
+            
+                style: geo_json_ce5273d949646acd4fdc5275142f977d_styler,
+            ...{
+}
+        });
+
+        function geo_json_ce5273d949646acd4fdc5275142f977d_add (data) {
+            geo_json_ce5273d949646acd4fdc5275142f977d
+                .addData(data);
+        }
+            geo_json_ce5273d949646acd4fdc5275142f977d_add({"features": [{"geometry": {"coordinates": [[[-74.0535, 4.8635], [-74.0515, 4.8635], [-74.0515, 4.8655], [-74.0535, 4.8655], [-74.0535, 4.8635]]], "type": "Polygon"}, "properties": {"altura_max": "3 pisos", "border_color": "#2C3E50", "border_weight": 3, "codigo": "ZCH", "color": "#FF4757", "descripcion": "Zona de conservaci\u00f3n del centro hist\u00f3rico", "nombre": "Centro Hist\u00f3rico", "usos": "Comercial, Cultural, Residencial"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_ce5273d949646acd4fdc5275142f977d.bindTooltip(
+                `<div>
+                     <strong>ZCH</strong> - Centro Histórico
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_4d6a4b7fdb47a2e37b50e540a91f2e15 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_5e1b14f2b3950de89a968b800c35e162 = $(`<div id="html_5e1b14f2b3950de89a968b800c35e162" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #FF4757; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Centro Histórico</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZCH</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Zona de conservación del centro histórico</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Comercial, Cultural, Residencial</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>3 pisos</p>             </div>         </div>         </div>`)[0];
+                popup_4d6a4b7fdb47a2e37b50e540a91f2e15.setContent(html_5e1b14f2b3950de89a968b800c35e162);
+            
+        
+
+        geo_json_ce5273d949646acd4fdc5275142f977d.bindPopup(popup_4d6a4b7fdb47a2e37b50e540a91f2e15)
+        ;
+
+        
+    
+    
+            geo_json_ce5273d949646acd4fdc5275142f977d.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_af9cfa4319afac27a9d45d71570ac618 = L.marker(
+                [4.8643, -74.0527],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_45e5e18e26b76b41fbd5911e3a58ccc1 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZCH\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_af9cfa4319afac27a9d45d71570ac618.setIcon(div_icon_45e5e18e26b76b41fbd5911e3a58ccc1);
+            
+    
+        function geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#27AE60", "fillColor": "#2ECC71", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_b281da3b7e4da20abcbeb0ebb0209ff1 = L.geoJson(null, {
+                onEachFeature: geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_onEachFeature,
+            
+                style: geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_styler,
+            ...{
+}
+        });
+
+        function geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_add (data) {
+            geo_json_b281da3b7e4da20abcbeb0ebb0209ff1
+                .addData(data);
+        }
+            geo_json_b281da3b7e4da20abcbeb0ebb0209ff1_add({"features": [{"geometry": {"coordinates": [[[-74.0545, 4.8655], [-74.0505, 4.8655], [-74.0505, 4.8685], [-74.0545, 4.8685], [-74.0545, 4.8655]]], "type": "Polygon"}, "properties": {"altura_max": "4 pisos", "border_color": "#27AE60", "border_weight": 3, "codigo": "ZRN", "color": "#2ECC71", "descripcion": "\u00c1rea residencial de estratos medios-altos", "nombre": "Zona Residencial Norte (Yerbabuena)", "usos": "Residencial, Comercio barrial"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_b281da3b7e4da20abcbeb0ebb0209ff1.bindTooltip(
+                `<div>
+                     <strong>ZRN</strong> - Zona Residencial Norte (Yerbabuena)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_b490865bd231840cc12cfe703636070c = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_b66e88736e40aefc47cd09ff540a19c0 = $(`<div id="html_b66e88736e40aefc47cd09ff540a19c0" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #2ECC71; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Zona Residencial Norte (Yerbabuena)</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZRN</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Área residencial de estratos medios-altos</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Residencial, Comercio barrial</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>4 pisos</p>             </div>         </div>         </div>`)[0];
+                popup_b490865bd231840cc12cfe703636070c.setContent(html_b66e88736e40aefc47cd09ff540a19c0);
+            
+        
+
+        geo_json_b281da3b7e4da20abcbeb0ebb0209ff1.bindPopup(popup_b490865bd231840cc12cfe703636070c)
+        ;
+
+        
+    
+    
+            geo_json_b281da3b7e4da20abcbeb0ebb0209ff1.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_3089abb0148eff84df650df510872417 = L.marker(
+                [4.8667, -74.05290000000001],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_24b5b80b8354eb7eb23cccaa43ac4f1f = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZRN\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_3089abb0148eff84df650df510872417.setIcon(div_icon_24b5b80b8354eb7eb23cccaa43ac4f1f);
+            
+    
+        function geo_json_944ee50b83688e8c9310eb38439e88e5_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#7F8C8D", "fillColor": "#95A5A6", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_944ee50b83688e8c9310eb38439e88e5_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_944ee50b83688e8c9310eb38439e88e5 = L.geoJson(null, {
+                onEachFeature: geo_json_944ee50b83688e8c9310eb38439e88e5_onEachFeature,
+            
+                style: geo_json_944ee50b83688e8c9310eb38439e88e5_styler,
+            ...{
+}
+        });
+
+        function geo_json_944ee50b83688e8c9310eb38439e88e5_add (data) {
+            geo_json_944ee50b83688e8c9310eb38439e88e5
+                .addData(data);
+        }
+            geo_json_944ee50b83688e8c9310eb38439e88e5_add({"features": [{"geometry": {"coordinates": [[[-74.0475, 4.8605], [-74.0435, 4.8605], [-74.0435, 4.8635], [-74.0475, 4.8635], [-74.0475, 4.8605]]], "type": "Polygon"}, "properties": {"altura_max": "Sin restricci\u00f3n", "border_color": "#7F8C8D", "border_weight": 3, "codigo": "ZI", "color": "#95A5A6", "descripcion": "\u00c1rea destinada a actividades industriales", "nombre": "Zona Industrial (Fusca)", "usos": "Industrial, Log\u00edstica"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_944ee50b83688e8c9310eb38439e88e5.bindTooltip(
+                `<div>
+                     <strong>ZI</strong> - Zona Industrial (Fusca)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_d3ed45be7e490c88d40e29c5cbf5b259 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_8ce07c3222003438b6c01ca0c9831629 = $(`<div id="html_8ce07c3222003438b6c01ca0c9831629" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #95A5A6; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Zona Industrial (Fusca)</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZI</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Área destinada a actividades industriales</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Industrial, Logística</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>Sin restricción</p>             </div>         </div>         </div>`)[0];
+                popup_d3ed45be7e490c88d40e29c5cbf5b259.setContent(html_8ce07c3222003438b6c01ca0c9831629);
+            
+        
+
+        geo_json_944ee50b83688e8c9310eb38439e88e5.bindPopup(popup_d3ed45be7e490c88d40e29c5cbf5b259)
+        ;
+
+        
+    
+    
+            geo_json_944ee50b83688e8c9310eb38439e88e5.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_3357f9d4f9ca2d5f70410d22e9841daf = L.marker(
+                [4.861700000000001, -74.0459],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_a9f19f3d4c718b1728cefa8e5363fab8 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZI\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_3357f9d4f9ca2d5f70410d22e9841daf.setIcon(div_icon_a9f19f3d4c718b1728cefa8e5363fab8);
+            
+    
+        function geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#1E8449", "fillColor": "#27AE60", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_a4c6d0e6b2c9c21d7effc91be91347cb = L.geoJson(null, {
+                onEachFeature: geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_onEachFeature,
+            
+                style: geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_styler,
+            ...{
+}
+        });
+
+        function geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_add (data) {
+            geo_json_a4c6d0e6b2c9c21d7effc91be91347cb
+                .addData(data);
+        }
+            geo_json_a4c6d0e6b2c9c21d7effc91be91347cb_add({"features": [{"geometry": {"coordinates": [[[-74.0575, 4.8605], [-74.0545, 4.8605], [-74.0545, 4.8635], [-74.0575, 4.8635], [-74.0575, 4.8605]]], "type": "Polygon"}, "properties": {"altura_max": "No aplica", "border_color": "#1E8449", "border_weight": 3, "codigo": "ZVP", "color": "#27AE60", "descripcion": "\u00c1rea de conservaci\u00f3n ambiental", "nombre": "Zona Verde Protegida (La Balsa)", "usos": "Conservaci\u00f3n, Recreaci\u00f3n pasiva"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_a4c6d0e6b2c9c21d7effc91be91347cb.bindTooltip(
+                `<div>
+                     <strong>ZVP</strong> - Zona Verde Protegida (La Balsa)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_d7ff94654fce6153243105409428391a = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_aba7e73c3c96bd8ab6e5832e2d3fa68f = $(`<div id="html_aba7e73c3c96bd8ab6e5832e2d3fa68f" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #27AE60; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Zona Verde Protegida (La Balsa)</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZVP</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Área de conservación ambiental</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Conservación, Recreación pasiva</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>No aplica</p>             </div>         </div>         </div>`)[0];
+                popup_d7ff94654fce6153243105409428391a.setContent(html_aba7e73c3c96bd8ab6e5832e2d3fa68f);
+            
+        
+
+        geo_json_a4c6d0e6b2c9c21d7effc91be91347cb.bindPopup(popup_d7ff94654fce6153243105409428391a)
+        ;
+
+        
+    
+    
+            geo_json_a4c6d0e6b2c9c21d7effc91be91347cb.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_f8a6d9642e02bfad0d76db31ae0f33f5 = L.marker(
+                [4.861700000000001, -74.05630000000001],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_97bd6c65589dab3066144522d848494c = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZVP\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_f8a6d9642e02bfad0d76db31ae0f33f5.setIcon(div_icon_97bd6c65589dab3066144522d848494c);
+            
+    
+        function geo_json_70ad52eea3ff01a55683b9edd53fb4dd_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#D68910", "fillColor": "#F39C12", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_70ad52eea3ff01a55683b9edd53fb4dd_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_70ad52eea3ff01a55683b9edd53fb4dd = L.geoJson(null, {
+                onEachFeature: geo_json_70ad52eea3ff01a55683b9edd53fb4dd_onEachFeature,
+            
+                style: geo_json_70ad52eea3ff01a55683b9edd53fb4dd_styler,
+            ...{
+}
+        });
+
+        function geo_json_70ad52eea3ff01a55683b9edd53fb4dd_add (data) {
+            geo_json_70ad52eea3ff01a55683b9edd53fb4dd
+                .addData(data);
+        }
+            geo_json_70ad52eea3ff01a55683b9edd53fb4dd_add({"features": [{"geometry": {"coordinates": [[[-74.0525, 4.8605], [-74.0485, 4.8605], [-74.0485, 4.8625], [-74.0525, 4.8625], [-74.0525, 4.8605]]], "type": "Polygon"}, "properties": {"altura_max": "5 pisos", "border_color": "#D68910", "border_weight": 3, "codigo": "ZC", "color": "#F39C12", "descripcion": "Corredor comercial principal", "nombre": "Zona Comercial (Bojac\u00e1)", "usos": "Comercial, Servicios, Oficinas"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_70ad52eea3ff01a55683b9edd53fb4dd.bindTooltip(
+                `<div>
+                     <strong>ZC</strong> - Zona Comercial (Bojacá)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_3c4d46943539dbf01078b653b2f02022 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_68e841d36c7761b79ce8967523de383a = $(`<div id="html_68e841d36c7761b79ce8967523de383a" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #F39C12; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Zona Comercial (Bojacá)</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZC</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Corredor comercial principal</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Comercial, Servicios, Oficinas</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>5 pisos</p>             </div>         </div>         </div>`)[0];
+                popup_3c4d46943539dbf01078b653b2f02022.setContent(html_68e841d36c7761b79ce8967523de383a);
+            
+        
+
+        geo_json_70ad52eea3ff01a55683b9edd53fb4dd.bindPopup(popup_3c4d46943539dbf01078b653b2f02022)
+        ;
+
+        
+    
+    
+            geo_json_70ad52eea3ff01a55683b9edd53fb4dd.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_da5043766a1cafeb24bcdd17d7ce2cf9 = L.marker(
+                [4.8613, -74.0509],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_ed0856dcabd39f66521d7b3637209462 = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZC\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_da5043766a1cafeb24bcdd17d7ce2cf9.setIcon(div_icon_ed0856dcabd39f66521d7b3637209462);
+            
+    
+        function geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_styler(feature) {
+            switch(feature.properties.nombre) {
+                default:
+                    return {"color": "#CA6F1E", "fillColor": "#E67E22", "fillOpacity": 0.7, "opacity": 1.0, "weight": 3};
+            }
+        }
+
+        function geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_37dbdc395f976e4c7837b6cfa9f20ed0 = L.geoJson(null, {
+                onEachFeature: geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_onEachFeature,
+            
+                style: geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_styler,
+            ...{
+}
+        });
+
+        function geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_add (data) {
+            geo_json_37dbdc395f976e4c7837b6cfa9f20ed0
+                .addData(data);
+        }
+            geo_json_37dbdc395f976e4c7837b6cfa9f20ed0_add({"features": [{"geometry": {"coordinates": [[[-74.0585, 4.8655], [-74.0555, 4.8655], [-74.0555, 4.8685], [-74.0585, 4.8685], [-74.0585, 4.8655]]], "type": "Polygon"}, "properties": {"altura_max": "4 pisos", "border_color": "#CA6F1E", "border_weight": 3, "codigo": "ZM", "color": "#E67E22", "descripcion": "Zona de usos mixtos residencial-comercial", "nombre": "Zona Mixta (Fagua)", "usos": "Residencial, Comercial, Servicios"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_37dbdc395f976e4c7837b6cfa9f20ed0.bindTooltip(
+                `<div>
+                     <strong>ZM</strong> - Zona Mixta (Fagua)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+        var popup_7a588f2b74500f7000c6aaf15f5c5bba = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_dcd1b5e1980a0dcc89d08e4c2f8aa85e = $(`<div id="html_dcd1b5e1980a0dcc89d08e4c2f8aa85e" style="width: 100.0%; height: 100.0%;">         <div style="width: 280px; font-family: Arial, sans-serif;">             <div style="background-color: #E67E22; color: white; padding: 10px; margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;">                 <h3 style="margin: 0; text-align: center;">Zona Mixta (Fagua)</h3>                 <div style="text-align: center; font-size: 14px; opacity: 0.9;">Código: ZM</div>             </div>             <div style="padding: 5px;">                 <p style="margin: 8px 0;"><strong>📝 Descripción:</strong><br>Zona de usos mixtos residencial-comercial</p>                 <p style="margin: 8px 0;"><strong>🏗️ Usos permitidos:</strong><br>Residencial, Comercial, Servicios</p>                 <p style="margin: 8px 0;"><strong>📏 Altura máxima:</strong><br>4 pisos</p>             </div>         </div>         </div>`)[0];
+                popup_7a588f2b74500f7000c6aaf15f5c5bba.setContent(html_dcd1b5e1980a0dcc89d08e4c2f8aa85e);
+            
+        
+
+        geo_json_37dbdc395f976e4c7837b6cfa9f20ed0.bindPopup(popup_7a588f2b74500f7000c6aaf15f5c5bba)
+        ;
+
+        
+    
+    
+            geo_json_37dbdc395f976e4c7837b6cfa9f20ed0.addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var marker_4f1c2c80a8692ea41662331593268e56 = L.marker(
+                [4.8667, -74.05729999999998],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var div_icon_7ee6422aae4e8c691f89c07e48b205db = L.divIcon({
+  "html": "\u003cdiv style=\"font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; text-align: center;\"\u003eZM\u003c/div\u003e",
+  "iconSize": [50, 20],
+  "iconAnchor": [25, 10],
+  "className": "empty",
+});
+        
+    
+                marker_4f1c2c80a8692ea41662331593268e56.setIcon(div_icon_7ee6422aae4e8c691f89c07e48b205db);
+            
+    
+            var layer_control_30efc6fc4e825d50d2ef7bb6eacfcc8a_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_ef89f02c94040d3511428a294a9782d5,
+                    "Satelital" : tile_layer_382b1093aaa55902c9b58739c7f94a43,
+                    "CartoDB Positron" : tile_layer_cecdf786336fedec1f907a873c7eda2e,
+                },
+                overlays :  {
+                    "macro_element_ce5273d949646acd4fdc5275142f977d" : geo_json_ce5273d949646acd4fdc5275142f977d,
+                    "macro_element_b281da3b7e4da20abcbeb0ebb0209ff1" : geo_json_b281da3b7e4da20abcbeb0ebb0209ff1,
+                    "macro_element_944ee50b83688e8c9310eb38439e88e5" : geo_json_944ee50b83688e8c9310eb38439e88e5,
+                    "macro_element_a4c6d0e6b2c9c21d7effc91be91347cb" : geo_json_a4c6d0e6b2c9c21d7effc91be91347cb,
+                    "macro_element_70ad52eea3ff01a55683b9edd53fb4dd" : geo_json_70ad52eea3ff01a55683b9edd53fb4dd,
+                    "macro_element_37dbdc395f976e4c7837b6cfa9f20ed0" : geo_json_37dbdc395f976e4c7837b6cfa9f20ed0,
+                },
+            };
+            let layer_control_30efc6fc4e825d50d2ef7bb6eacfcc8a = L.control.layers(
+                layer_control_30efc6fc4e825d50d2ef7bb6eacfcc8a_layers.base_layers,
+                layer_control_30efc6fc4e825d50d2ef7bb6eacfcc8a_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var measure_control_f0a30d43ecac4a995167cb5137a7a691 = new L.Control.Measure(
+                {
+  "position": "topright",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_a6c02812f6ba7126130d408df45451bc.addControl(measure_control_f0a30d43ecac4a995167cb5137a7a691);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+    
+            var marker_b377ac497835de140932764dbecf92b6 = L.marker(
+                [4.8641, -74.0519],
+                {
+}
+            ).addTo(map_a6c02812f6ba7126130d408df45451bc);
+        
+    
+            var icon_7637eb36a750014371eb2f16b7e51947 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ed31f4ecd1cc7b6f00532d316ec78cad = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b4e050c38cc183fc1772a8b9ecbb12ef = $(`<div id="html_b4e050c38cc183fc1772a8b9ecbb12ef" style="width: 100.0%; height: 100.0%;">             <div style="text-align: center; font-family: Arial, sans-serif;">                 <h4 style="color: #E74C3C; margin: 5px 0;">📍 Centro de Chía</h4>                 <p style="margin: 5px 0;">Chía, Cundinamarca<br>Colombia</p>                 <p style="font-size: 12px; color: #7F8C8D;">Lat: 4.8641° N<br>Lon: 74.0519° W</p>             </div>         </div>`)[0];
+                popup_ed31f4ecd1cc7b6f00532d316ec78cad.setContent(html_b4e050c38cc183fc1772a8b9ecbb12ef);
+            
+        
+
+        marker_b377ac497835de140932764dbecf92b6.bindPopup(popup_ed31f4ecd1cc7b6f00532d316ec78cad)
+        ;
+
+        
+    
+    
+            marker_b377ac497835de140932764dbecf92b6.bindTooltip(
+                `<div>
+                     🏛️ Centro Municipal de Chía
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b377ac497835de140932764dbecf92b6.setIcon(icon_7637eb36a750014371eb2f16b7e51947);
+            
+</script>
+</html>

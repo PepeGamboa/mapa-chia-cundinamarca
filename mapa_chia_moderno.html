@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_7ae24f24e4ba9db6d135f83f34440767 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_7ae24f24e4ba9db6d135f83f34440767" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_7ae24f24e4ba9db6d135f83f34440767 = L.map(
+                "map_7ae24f24e4ba9db6d135f83f34440767",
+                {
+                    center: [4.8584, -74.0564],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_2da5e2799a5e7194d43218ac019552aa = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_2da5e2799a5e7194d43218ac019552aa.addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+            var marker_8315284819f5d7cd94519155f7bfe492 = L.marker(
+                [4.8584, -74.0564],
+                {
+}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+            var icon_88a855ba1fcbc5089ea152fc58003383 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ede17eec3436872e99e40728b6b12e44 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b32d6dcd942479ae77489c9a558bb907 = $(`<div id="html_b32d6dcd942479ae77489c9a558bb907" style="width: 100.0%; height: 100.0%;"><b>Chía, Cundinamarca</b><br>Centro del municipio</div>`)[0];
+                popup_ede17eec3436872e99e40728b6b12e44.setContent(html_b32d6dcd942479ae77489c9a558bb907);
+            
+        
+
+        marker_8315284819f5d7cd94519155f7bfe492.bindPopup(popup_ede17eec3436872e99e40728b6b12e44)
+        ;
+
+        
+    
+    
+            marker_8315284819f5d7cd94519155f7bfe492.bindTooltip(
+                `<div>
+                     Click para más información
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8315284819f5d7cd94519155f7bfe492.setIcon(icon_88a855ba1fcbc5089ea152fc58003383);
+            
+    
+            var circle_marker_6206ffba20b7e80c5ed0f504b3d94371 = L.circleMarker(
+                [4.8584, -74.0564],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6b6b", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_e4749ba52ffca2746b1da60842f9ba76 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cb0aa44da207add69d5c602b927a2aa2 = $(`<div id="html_cb0aa44da207add69d5c602b927a2aa2" style="width: 100.0%; height: 100.0%;"><b>Centro Histórico (ZCH)</b></div>`)[0];
+                popup_e4749ba52ffca2746b1da60842f9ba76.setContent(html_cb0aa44da207add69d5c602b927a2aa2);
+            
+        
+
+        circle_marker_6206ffba20b7e80c5ed0f504b3d94371.bindPopup(popup_e4749ba52ffca2746b1da60842f9ba76)
+        ;
+
+        
+    
+    
+            circle_marker_6206ffba20b7e80c5ed0f504b3d94371.bindTooltip(
+                `<div>
+                     Centro Histórico (ZCH)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_69b035413630103329dd6b4b4e9c0243 = L.circleMarker(
+                [4.862, -74.054],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ecdc4", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_149f8343816c5db203a69adc3c51460a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a215bd48678d9463f24f9d41caf264d = $(`<div id="html_2a215bd48678d9463f24f9d41caf264d" style="width: 100.0%; height: 100.0%;"><b>Vereda Norte (ZRN)</b></div>`)[0];
+                popup_149f8343816c5db203a69adc3c51460a.setContent(html_2a215bd48678d9463f24f9d41caf264d);
+            
+        
+
+        circle_marker_69b035413630103329dd6b4b4e9c0243.bindPopup(popup_149f8343816c5db203a69adc3c51460a)
+        ;
+
+        
+    
+    
+            circle_marker_69b035413630103329dd6b4b4e9c0243.bindTooltip(
+                `<div>
+                     Vereda Norte (ZRN)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d737c36237d393e19925c7633b2a73e1 = L.circleMarker(
+                [4.854, -74.06],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#45b7d1", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_adbdc304404fa679e1f5b01117deaee0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d760e9a050c4db0c0ced044ec80fed62 = $(`<div id="html_d760e9a050c4db0c0ced044ec80fed62" style="width: 100.0%; height: 100.0%;"><b>Industrial (ZI)</b></div>`)[0];
+                popup_adbdc304404fa679e1f5b01117deaee0.setContent(html_d760e9a050c4db0c0ced044ec80fed62);
+            
+        
+
+        circle_marker_d737c36237d393e19925c7633b2a73e1.bindPopup(popup_adbdc304404fa679e1f5b01117deaee0)
+        ;
+
+        
+    
+    
+            circle_marker_d737c36237d393e19925c7633b2a73e1.bindTooltip(
+                `<div>
+                     Industrial (ZI)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7995ad9583f2ceb263b763b7181f8d77 = L.circleMarker(
+                [4.845, -74.05],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#96ceb4", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_3e045d085c2900d01d7bfb5e5c4a4f9d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_12454b5fb99d74469b1554f3dea9871e = $(`<div id="html_12454b5fb99d74469b1554f3dea9871e" style="width: 100.0%; height: 100.0%;"><b>Ecológica (ZVP)</b></div>`)[0];
+                popup_3e045d085c2900d01d7bfb5e5c4a4f9d.setContent(html_12454b5fb99d74469b1554f3dea9871e);
+            
+        
+
+        circle_marker_7995ad9583f2ceb263b763b7181f8d77.bindPopup(popup_3e045d085c2900d01d7bfb5e5c4a4f9d)
+        ;
+
+        
+    
+    
+            circle_marker_7995ad9583f2ceb263b763b7181f8d77.bindTooltip(
+                `<div>
+                     Ecológica (ZVP)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_444853ff497d8897746230c28b9ad720 = L.circleMarker(
+                [4.86, -74.058],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffd93d", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_d7efa3bfa2a614f63f337139a9e64a5d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_af770df02a12550965be6d71b3796104 = $(`<div id="html_af770df02a12550965be6d71b3796104" style="width: 100.0%; height: 100.0%;"><b>Comercial (ZC)</b></div>`)[0];
+                popup_d7efa3bfa2a614f63f337139a9e64a5d.setContent(html_af770df02a12550965be6d71b3796104);
+            
+        
+
+        circle_marker_444853ff497d8897746230c28b9ad720.bindPopup(popup_d7efa3bfa2a614f63f337139a9e64a5d)
+        ;
+
+        
+    
+    
+            circle_marker_444853ff497d8897746230c28b9ad720.bindTooltip(
+                `<div>
+                     Comercial (ZC)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d79df97525e4960d77af9c3161b08585 = L.circleMarker(
+                [4.853, -74.048],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a8e6cf", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_7ae24f24e4ba9db6d135f83f34440767);
+        
+    
+        var popup_1e36b7df96597efd21cd26b172889418 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e79af8c9be2f5a78441fe79c0e57c002 = $(`<div id="html_e79af8c9be2f5a78441fe79c0e57c002" style="width: 100.0%; height: 100.0%;"><b>Mixta (ZM)</b></div>`)[0];
+                popup_1e36b7df96597efd21cd26b172889418.setContent(html_e79af8c9be2f5a78441fe79c0e57c002);
+            
+        
+
+        circle_marker_d79df97525e4960d77af9c3161b08585.bindPopup(popup_1e36b7df96597efd21cd26b172889418)
+        ;
+
+        
+    
+    
+            circle_marker_d79df97525e4960d77af9c3161b08585.bindTooltip(
+                `<div>
+                     Mixta (ZM)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
