@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_ddbcd7413588b5fad4eb5b5d7ae217c6 {
+                #map_c3e5495ad4b9d71377bfd7cdf5b99ac1 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,19 +54,19 @@
 <body>
     
     
-            <div class="folium-map" id="map_ddbcd7413588b5fad4eb5b5d7ae217c6" ></div>
+            <div class="folium-map" id="map_c3e5495ad4b9d71377bfd7cdf5b99ac1" ></div>
         
 </body>
 <script>
     
     
-            var map_ddbcd7413588b5fad4eb5b5d7ae217c6 = L.map(
-                "map_ddbcd7413588b5fad4eb5b5d7ae217c6",
+            var map_c3e5495ad4b9d71377bfd7cdf5b99ac1 = L.map(
+                "map_c3e5495ad4b9d71377bfd7cdf5b99ac1",
                 {
-                    center: [4.8582, -74.0588],
+                    center: [4.8595, -74.0588],
                     crs: L.CRS.EPSG3857,
                     ...{
-  "zoom": 15,
+  "zoom": 16,
   "zoomControl": true,
   "preferCanvas": false,
 }
@@ -78,7 +78,7 @@
 
         
     
-            var tile_layer_1c3eb7274c758e6ba35f34825c5ea7b0 = L.tileLayer(
+            var tile_layer_8d0b61585ac16ebf8ce56bd76dac9b58 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -95,19 +95,351 @@
             );
         
     
-            tile_layer_1c3eb7274c758e6ba35f34825c5ea7b0.addTo(map_ddbcd7413588b5fad4eb5b5d7ae217c6);
+            tile_layer_8d0b61585ac16ebf8ce56bd76dac9b58.addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
         
     
-            var marker_8123e26c37f71868681b705af470e4c7 = L.marker(
-                [4.8582, -74.0588],
+            var tile_layer_f2a413143c9b2b50681e4165525f27e9 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f2a413143c9b2b50681e4165525f27e9.addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var marker_7668bf7540cfec8d854ab0d0c0818970 = L.marker(
+                [4.8595, -74.0588],
                 {
 }
-            ).addTo(map_ddbcd7413588b5fad4eb5b5d7ae217c6);
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
         
     
-            var icon_fc9b33d1c5cce7da27fff7ecd6809ea4 = L.AwesomeMarkers.icon(
+            var icon_24b0f3c72ea833edc5daa5b0027a94fe = L.AwesomeMarkers.icon(
                 {
   "markerColor": "red",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9fd3d293fe9315dcee67f0e4a95af057 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_27390bb95f3f5f5ab0b7086fff648446 = $(`<div id="html_27390bb95f3f5f5ab0b7086fff648446" style="width: 100.0%; height: 100.0%;">         <div style="width: 200px;">             <h4>Centro Histórico de Chía</h4>             <p><strong>Parque Diosa Chía</strong></p>             <p>Plaza Principal</p>             <p>Zona: ZCH</p>             <p>Uso: Comercial, Cultural, Residencial, Institucional</p>         </div>     </div>`)[0];
+                popup_9fd3d293fe9315dcee67f0e4a95af057.setContent(html_27390bb95f3f5f5ab0b7086fff648446);
+            
+        
+
+        marker_7668bf7540cfec8d854ab0d0c0818970.bindPopup(popup_9fd3d293fe9315dcee67f0e4a95af057)
+        ;
+
+        
+    
+    
+            marker_7668bf7540cfec8d854ab0d0c0818970.bindTooltip(
+                `<div>
+                     Centro Histórico - Parque Diosa Chía
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7668bf7540cfec8d854ab0d0c0818970.setIcon(icon_24b0f3c72ea833edc5daa5b0027a94fe);
+            
+    
+            var polygon_94528fc135d7ac6611546efa8aa89727 = L.polygon(
+                [[4.885, -74.045], [4.875, -74.035], [4.865, -74.04], [4.875, -74.05]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF9FF3", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_a0c600862fcd5dee557e565b30ddb55b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b07e3d58e66640098a74d68d83be600f = $(`<div id="html_b07e3d58e66640098a74d68d83be600f" style="width: 100.0%; height: 100.0%;">Vereda Fagua - Zona: ZM</div>`)[0];
+                popup_a0c600862fcd5dee557e565b30ddb55b.setContent(html_b07e3d58e66640098a74d68d83be600f);
+            
+        
+
+        polygon_94528fc135d7ac6611546efa8aa89727.bindPopup(popup_a0c600862fcd5dee557e565b30ddb55b)
+        ;
+
+        
+    
+    
+            polygon_94528fc135d7ac6611546efa8aa89727.bindTooltip(
+                `<div>
+                     Vereda Fagua
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_6086d43e9997804dbd6152ca2e56e5bb = L.polygon(
+                [[4.875, -74.065], [4.865, -74.055], [4.855, -74.06], [4.865, -74.07]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#A8E6CF", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_f32bef483b696d92a222aff3daa64cfe = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5db219b504555f818d10672dd8db01a0 = $(`<div id="html_5db219b504555f818d10672dd8db01a0" style="width: 100.0%; height: 100.0%;">Vereda Tiquiza - Zona: ZR</div>`)[0];
+                popup_f32bef483b696d92a222aff3daa64cfe.setContent(html_5db219b504555f818d10672dd8db01a0);
+            
+        
+
+        polygon_6086d43e9997804dbd6152ca2e56e5bb.bindPopup(popup_f32bef483b696d92a222aff3daa64cfe)
+        ;
+
+        
+    
+    
+            polygon_6086d43e9997804dbd6152ca2e56e5bb.bindTooltip(
+                `<div>
+                     Vereda Tiquiza
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_47afc876a23ac4dfd34278e9fe8f0638 = L.polygon(
+                [[4.845, -74.05], [4.835, -74.04], [4.825, -74.045], [4.835, -74.055]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#A8E6CF", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_677fce69035d7b4a5ede56ce46cb5aea = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_954af48e9535b803cd0bf1a2a6a97084 = $(`<div id="html_954af48e9535b803cd0bf1a2a6a97084" style="width: 100.0%; height: 100.0%;">Vereda Bojacá - Zona: ZR</div>`)[0];
+                popup_677fce69035d7b4a5ede56ce46cb5aea.setContent(html_954af48e9535b803cd0bf1a2a6a97084);
+            
+        
+
+        polygon_47afc876a23ac4dfd34278e9fe8f0638.bindPopup(popup_677fce69035d7b4a5ede56ce46cb5aea)
+        ;
+
+        
+    
+    
+            polygon_47afc876a23ac4dfd34278e9fe8f0638.bindTooltip(
+                `<div>
+                     Vereda Bojacá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_f2bca1697488035ecde8ec838905f24d = L.polygon(
+                [[4.89, -74.03], [4.88, -74.02], [4.87, -74.025], [4.88, -74.035]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ECDC4", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_7e075d70949211c797a58333381de6ee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3c3a728b35348e17223422b4f9bb4210 = $(`<div id="html_3c3a728b35348e17223422b4f9bb4210" style="width: 100.0%; height: 100.0%;">Vereda Yerbabuena - Zona: ZRN</div>`)[0];
+                popup_7e075d70949211c797a58333381de6ee.setContent(html_3c3a728b35348e17223422b4f9bb4210);
+            
+        
+
+        polygon_f2bca1697488035ecde8ec838905f24d.bindPopup(popup_7e075d70949211c797a58333381de6ee)
+        ;
+
+        
+    
+    
+            polygon_f2bca1697488035ecde8ec838905f24d.bindTooltip(
+                `<div>
+                     Vereda Yerbabuena
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_a6551177e2ea6636b18d606ce4c7e073 = L.polygon(
+                [[4.835, -74.025], [4.825, -74.015], [4.815, -74.02], [4.825, -74.03]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#45B7D1", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_505c39dc6fa39acac2d48abe30da7325 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e8e9b9414b120e5239338ce565e4c7e0 = $(`<div id="html_e8e9b9414b120e5239338ce565e4c7e0" style="width: 100.0%; height: 100.0%;">Vereda Fusca - Zona: ZI</div>`)[0];
+                popup_505c39dc6fa39acac2d48abe30da7325.setContent(html_e8e9b9414b120e5239338ce565e4c7e0);
+            
+        
+
+        polygon_a6551177e2ea6636b18d606ce4c7e073.bindPopup(popup_505c39dc6fa39acac2d48abe30da7325)
+        ;
+
+        
+    
+    
+            polygon_a6551177e2ea6636b18d606ce4c7e073.bindTooltip(
+                `<div>
+                     Vereda Fusca
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_e354bfe2f433f8bc3a403eebe2a0b708 = L.polygon(
+                [[4.815, -74.045], [4.805, -74.035], [4.795, -74.04], [4.805, -74.05]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#96CEB4", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_01f40de2d291db936aecbb27c2eb4f9f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b2e922638fcae6db15e96fbd132dec84 = $(`<div id="html_b2e922638fcae6db15e96fbd132dec84" style="width: 100.0%; height: 100.0%;">Vereda La Balsa - Zona: ZVP</div>`)[0];
+                popup_01f40de2d291db936aecbb27c2eb4f9f.setContent(html_b2e922638fcae6db15e96fbd132dec84);
+            
+        
+
+        polygon_e354bfe2f433f8bc3a403eebe2a0b708.bindPopup(popup_01f40de2d291db936aecbb27c2eb4f9f)
+        ;
+
+        
+    
+    
+            polygon_e354bfe2f433f8bc3a403eebe2a0b708.bindTooltip(
+                `<div>
+                     Vereda La Balsa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_f19bf256eef58a0c737e97c2023ca072 = L.polygon(
+                [[4.805, -74.065], [4.795, -74.055], [4.785, -74.06], [4.795, -74.07]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#A8E6CF", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_b7f07a99470b82bfc37e17d99c60fa09 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cf07e2046a9c6de6e7878ec110be9e67 = $(`<div id="html_cf07e2046a9c6de6e7878ec110be9e67" style="width: 100.0%; height: 100.0%;">Vereda Cerca de Piedra - Zona: ZR</div>`)[0];
+                popup_b7f07a99470b82bfc37e17d99c60fa09.setContent(html_cf07e2046a9c6de6e7878ec110be9e67);
+            
+        
+
+        polygon_f19bf256eef58a0c737e97c2023ca072.bindPopup(popup_b7f07a99470b82bfc37e17d99c60fa09)
+        ;
+
+        
+    
+    
+            polygon_f19bf256eef58a0c737e97c2023ca072.bindTooltip(
+                `<div>
+                     Vereda Cerca de Piedra
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_192da9f111e804c12c59f780b58d9857 = L.polygon(
+                [[4.775, -74.04], [4.765, -74.03], [4.755, -74.035], [4.765, -74.045]],
+                {"bubblingMouseEvents": true, "color": "#2E7D32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFD93D", "fillOpacity": 0.3, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+        var popup_9af0e5f91c52ebc76b1b214631142000 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d35b3d6a2a37f49dfe001d6c82f4c90e = $(`<div id="html_d35b3d6a2a37f49dfe001d6c82f4c90e" style="width: 100.0%; height: 100.0%;">Vereda Fonquetá - Zona: ZRU</div>`)[0];
+                popup_9af0e5f91c52ebc76b1b214631142000.setContent(html_d35b3d6a2a37f49dfe001d6c82f4c90e);
+            
+        
+
+        polygon_192da9f111e804c12c59f780b58d9857.bindPopup(popup_9af0e5f91c52ebc76b1b214631142000)
+        ;
+
+        
+    
+    
+            polygon_192da9f111e804c12c59f780b58d9857.bindTooltip(
+                `<div>
+                     Vereda Fonquetá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_190866736fb4379d39ce1eabbfc38a5a = L.marker(
+                [4.862, -74.0565],
+                {
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var icon_50f4fcf39cfffe74fa60f8e26431c1e1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
   "iconColor": "white",
   "icon": "info-sign",
   "prefix": "glyphicon",
@@ -116,24 +448,246 @@
             );
         
     
-        var popup_1f84dbb7fa168070f6e50f2322d87cab = L.popup({
+        var popup_528241524e60f8ae26192e761e7faa76 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_14c5e4055a15d1b746a53f413d344a6c = $(`<div id="html_14c5e4055a15d1b746a53f413d344a6c" style="width: 100.0%; height: 100.0%;">Plaza Diosa Chia</div>`)[0];
-                popup_1f84dbb7fa168070f6e50f2322d87cab.setContent(html_14c5e4055a15d1b746a53f413d344a6c);
+                var html_84874a4e3be8ef72a46007d9121c6040 = $(`<div id="html_84874a4e3be8ef72a46007d9121c6040" style="width: 100.0%; height: 100.0%;">Alcaldía Municipal - Centro de Chía</div>`)[0];
+                popup_528241524e60f8ae26192e761e7faa76.setContent(html_84874a4e3be8ef72a46007d9121c6040);
             
         
 
-        marker_8123e26c37f71868681b705af470e4c7.bindPopup(popup_1f84dbb7fa168070f6e50f2322d87cab)
+        marker_190866736fb4379d39ce1eabbfc38a5a.bindPopup(popup_528241524e60f8ae26192e761e7faa76)
         ;
 
         
     
     
-                marker_8123e26c37f71868681b705af470e4c7.setIcon(icon_fc9b33d1c5cce7da27fff7ecd6809ea4);
+            marker_190866736fb4379d39ce1eabbfc38a5a.bindTooltip(
+                `<div>
+                     Alcaldía Municipal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_190866736fb4379d39ce1eabbfc38a5a.setIcon(icon_50f4fcf39cfffe74fa60f8e26431c1e1);
             
+    
+            var marker_afcbd5fa3e97c1ec412b8935116e6ea2 = L.marker(
+                [4.8605, -74.058],
+                {
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var icon_ef50bbd46dab01a425e6d2539c459ad7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_67be06a4acbcc87a2657f8b168e22f14 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_038c4817197248ff18b2033332f9f3d3 = $(`<div id="html_038c4817197248ff18b2033332f9f3d3" style="width: 100.0%; height: 100.0%;">Iglesia Parroquial - Centro de Chía</div>`)[0];
+                popup_67be06a4acbcc87a2657f8b168e22f14.setContent(html_038c4817197248ff18b2033332f9f3d3);
+            
+        
+
+        marker_afcbd5fa3e97c1ec412b8935116e6ea2.bindPopup(popup_67be06a4acbcc87a2657f8b168e22f14)
+        ;
+
+        
+    
+    
+            marker_afcbd5fa3e97c1ec412b8935116e6ea2.bindTooltip(
+                `<div>
+                     Iglesia Parroquial
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_afcbd5fa3e97c1ec412b8935116e6ea2.setIcon(icon_ef50bbd46dab01a425e6d2539c459ad7);
+            
+    
+            var marker_3a0935a519eb5d1da1f347a8b240fb11 = L.marker(
+                [4.859, -74.059],
+                {
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var icon_1ebde0eeb7512947454e1b7e63f65d28 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a44822df54ab6248f80e6a7aa70a5eb9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1a43fd1a4d4bb0fe432dc01fe0c857d3 = $(`<div id="html_1a43fd1a4d4bb0fe432dc01fe0c857d3" style="width: 100.0%; height: 100.0%;">Centro Comercial - Centro de Chía</div>`)[0];
+                popup_a44822df54ab6248f80e6a7aa70a5eb9.setContent(html_1a43fd1a4d4bb0fe432dc01fe0c857d3);
+            
+        
+
+        marker_3a0935a519eb5d1da1f347a8b240fb11.bindPopup(popup_a44822df54ab6248f80e6a7aa70a5eb9)
+        ;
+
+        
+    
+    
+            marker_3a0935a519eb5d1da1f347a8b240fb11.bindTooltip(
+                `<div>
+                     Centro Comercial
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3a0935a519eb5d1da1f347a8b240fb11.setIcon(icon_1ebde0eeb7512947454e1b7e63f65d28);
+            
+    
+            var marker_3608dc49855af653e15608569e085d56 = L.marker(
+                [4.864, -74.055],
+                {
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var icon_6a3f5f16802c623fe0f527f67bac7cd5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e80cbca7a2c413bbecc12e9041529f35 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a752c7bf1aaed722cc2be8af257b32c9 = $(`<div id="html_a752c7bf1aaed722cc2be8af257b32c9" style="width: 100.0%; height: 100.0%;">Hospital - Centro de Chía</div>`)[0];
+                popup_e80cbca7a2c413bbecc12e9041529f35.setContent(html_a752c7bf1aaed722cc2be8af257b32c9);
+            
+        
+
+        marker_3608dc49855af653e15608569e085d56.bindPopup(popup_e80cbca7a2c413bbecc12e9041529f35)
+        ;
+
+        
+    
+    
+            marker_3608dc49855af653e15608569e085d56.bindTooltip(
+                `<div>
+                     Hospital
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3608dc49855af653e15608569e085d56.setIcon(icon_6a3f5f16802c623fe0f527f67bac7cd5);
+            
+    
+            var marker_119a1617753fd97e7416aa4940ffa089 = L.marker(
+                [4.861, -74.056],
+                {
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+        
+    
+            var icon_e9b6b9026e6ad7b6d3bab9ca71722554 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_db73d247c1feefcad817ef3789283550 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_72c5e4b9ecc396cdaf7030f051e1f78e = $(`<div id="html_72c5e4b9ecc396cdaf7030f051e1f78e" style="width: 100.0%; height: 100.0%;">Estación Policía - Centro de Chía</div>`)[0];
+                popup_db73d247c1feefcad817ef3789283550.setContent(html_72c5e4b9ecc396cdaf7030f051e1f78e);
+            
+        
+
+        marker_119a1617753fd97e7416aa4940ffa089.bindPopup(popup_db73d247c1feefcad817ef3789283550)
+        ;
+
+        
+    
+    
+            marker_119a1617753fd97e7416aa4940ffa089.bindTooltip(
+                `<div>
+                     Estación Policía
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_119a1617753fd97e7416aa4940ffa089.setIcon(icon_e9b6b9026e6ad7b6d3bab9ca71722554);
+            
+    
+            var layer_control_2e1e2ddda45f57c7c840c573531408bb_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_8d0b61585ac16ebf8ce56bd76dac9b58,
+                    "Satelital" : tile_layer_f2a413143c9b2b50681e4165525f27e9,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_2e1e2ddda45f57c7c840c573531408bb = L.control.layers(
+                layer_control_2e1e2ddda45f57c7c840c573531408bb_layers.base_layers,
+                layer_control_2e1e2ddda45f57c7c840c573531408bb_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_c3e5495ad4b9d71377bfd7cdf5b99ac1);
+
+        
 </script>
 </html>
