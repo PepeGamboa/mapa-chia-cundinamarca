@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 Mapa 3D Chía - Cesium</title>
+    <title>🌍 Mapa 3D Interactivo - Chía, Cundinamarca</title>
     
-    <!-- Cesium -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.95.0/Cesium.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.95.0/Widgets/widgets.css" rel="stylesheet">
+    <!-- Mapbox GL JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/2.15.0/mapbox-gl.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/2.15.0/mapbox-gl.min.css" rel="stylesheet">
     
     <style>
         * {
@@ -16,10 +16,10 @@
             box-sizing: border-box;
         }
         
-        html, body, #cesiumContainer {
-            width: 100%;
-            height: 100%;
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
             overflow: hidden;
         }
         
@@ -49,6 +49,16 @@
             font-size: 0.95em;
             opacity: 0.9;
             font-weight: 300;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100vh;
+            cursor: grab;
+        }
+        
+        #map:active {
+            cursor: grabbing;
         }
         
         .controls-panel {
@@ -98,6 +108,10 @@
         
         .control-btn:active {
             transform: translateY(0);
+        }
+        
+        .control-btn.active {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
         
         .info-box {
@@ -168,25 +182,12 @@
             100% { transform: rotate(360deg); }
         }
         
-        .error-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #dc3545;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            color: white;
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .cesium-widget-credits {
-            display: none !important;
+        .weather-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.8em;
         }
         
         @media (max-width: 768px) {
@@ -217,24 +218,25 @@
     <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
         <h2>🌍 Cargando Mapa 3D de Chía</h2>
-        <p>Preparando vista satelital y terreno 3D...</p>
+        <p>Iniciando vista satelital y terreno 3D...</p>
     </div>
     
     <div class="header-overlay">
         <h1>🌍 Mapa 3D Interactivo - Chía, Cundinamarca</h1>
-        <p>Exploración avanzada con tecnología Cesium • Vista satelital y terreno 3D</p>
+        <p>Exploración avanzada con vista satelital y relieve 3D • Compatible con todos los navegadores</p>
     </div>
     
-    <div id="cesiumContainer"></div>
+    <div id="map"></div>
     
     <div class="controls-panel">
         <h3>🎮 Controles</h3>
         
         <div class="control-group">
             <button class="control-btn" onclick="flyToChia()">📍 Centrar en Chía</button>
-            <button class="control-btn" onclick="toggleTerrain()">🏔️ Alternar Terreno</button>
-            <button class="control-btn" onclick="changeImagery()">🛰️ Cambiar Vista</button>
-            <button class="control-btn" onclick="toggle3D()">🌍 Vista 3D/2D</button>
+            <button class="control-btn" onclick="toggle3D()" id="btn3D">🌍 Vista 3D</button>
+            <button class="control-btn" onclick="toggleSatellite()" id="btnSatellite">🛰️ Vista Satélite</button>
+            <button class="control-btn" onclick="toggleTraffic()" id="btnTraffic">🚗 Mostrar Tráfico</button>
+            <button class="control-btn" onclick="addCustomMarker()">📌 Agregar Marcador</button>
         </div>
     </div>
     
@@ -248,241 +250,452 @@
             Lat: 4.8644° N<br>
             Lng: 74.0606° O
         </div>
+        <div class="weather-info">
+            <strong>🌤️ Clima típico:</strong> Templado, 14-20°C<br>
+            <strong>🌧️ Época lluviosa:</strong> Abril-Mayo, Oct-Nov
+        </div>
     </div>
 
     <script>
-        let viewer;
-        let terrainEnabled = false;
-        let currentImageryIndex = 0;
-        let is3DMode = true;
+        let map;
+        let is3DMode = false;
+        let isSatellite = false;
+        let isTrafficVisible = false;
+        let markers = [];
         
         // Coordenadas de Chía, Cundinamarca
-        const chiaPosition = Cesium.Cartesian3.fromDegrees(-74.0606, 4.8644, 5000);
+        const chiaCenter = [-74.0606, 4.8644];
         
-        // Configurar Cesium Ion (sin token - usando recursos públicos)
-        Cesium.Ion.defaultAccessToken = '';
-        
-        // Opciones de imágenes satelitales
-        const imageryProviders = [
-            {
-                name: "OpenStreetMap",
-                provider: new Cesium.OpenStreetMapImageryProvider({
-                    url: 'https://a.tile.openstreetmap.org/'
-                })
-            },
-            {
-                name: "Esri World Imagery",
-                provider: new Cesium.ArcGisMapServerImageryProvider({
-                    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
-                })
-            },
-            {
-                name: "Esri World Street",
-                provider: new Cesium.ArcGisMapServerImageryProvider({
-                    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
-                })
-            }
-        ];
-        
-        function initializeCesium() {
+        function initMap() {
             try {
-                // Crear el visor de Cesium
-                viewer = new Cesium.Viewer('cesiumContainer', {
-                    imageryProvider: imageryProviders[0].provider,
-                    terrainProvider: Cesium.createWorldTerrain({
-                        requestWaterMask: true,
-                        requestVertexNormals: true
-                    }),
-                    skyBox: new Cesium.SkyBox({
-                        sources: {
-                            positiveX: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_px.jpg',
-                            negativeX: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_mx.jpg',
-                            positiveY: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_py.jpg',
-                            negativeY: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_my.jpg',
-                            positiveZ: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_pz.jpg',
-                            negativeZ: 'https://cesium.com/downloads/cesiumjs/releases/1.95/Build/Cesium/Assets/Textures/SkyBox/tycho2t3_80_mz.jpg'
-                        }
-                    }),
-                    baseLayerPicker: false,
-                    vrButton: false,
-                    geocoder: false,
-                    homeButton: false,
-                    sceneModePicker: true,
-                    navigationHelpButton: false,
-                    animation: false,
-                    timeline: false,
-                    fullscreenButton: true,
-                    creditContainer: document.createElement('div')
+                // Token público de Mapbox para demos (reemplazar por tu propio token)
+                mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+                
+                map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/outdoors-v12',
+                    center: chiaCenter,
+                    zoom: 13,
+                    pitch: 45,
+                    bearing: -17.6,
+                    antialias: true,
+                    attributionControl: false
+                });
+
+                // Evento cuando el mapa se carga
+                map.on('load', function() {
+                    // Ocultar pantalla de carga
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                    }, 1500);
+                    
+                    // Agregar controles de navegación
+                    map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+                    map.addControl(new mapboxgl.FullscreenControl(), 'top-left');
+                    map.addControl(new mapboxgl.ScaleControl({
+                        maxWidth: 100,
+                        unit: 'metric'
+                    }), 'bottom-right');
+                    
+                    // Agregar capa de edificios 3D
+                    add3DBuildings();
+                    
+                    // Agregar marcadores de puntos de interés
+                    addPointsOfInterest();
+                    
+                    // Agregar efectos visuales
+                    addVisualEffects();
                 });
                 
-                // Configurar la cámara para Chía
-                viewer.camera.setView({
-                    destination: Cesium.Cartesian3.fromDegrees(-74.0606, 4.8644, 15000),
-                    orientation: {
-                        heading: Cesium.Math.toRadians(0),
-                        pitch: Cesium.Math.toRadians(-45),
-                        roll: 0.0
-                    }
+                // Eventos de interacción
+                map.on('click', function(e) {
+                    console.log('Coordenadas:', e.lngLat.lng.toFixed(4), e.lngLat.lat.toFixed(4));
                 });
-                
-                // Agregar marcadores de puntos de interés
-                addPointsOfInterest();
-                
-                // Configurar efectos visuales
-                setupVisualEffects();
-                
-                // Ocultar pantalla de carga
-                setTimeout(() => {
-                    document.getElementById('loadingScreen').style.display = 'none';
-                }, 2000);
                 
             } catch (error) {
-                console.error('Error al inicializar Cesium:', error);
-                showError('Error al cargar el mapa 3D. Verifica tu conexión a internet.');
+                console.error('Error al inicializar el mapa:', error);
+                showError();
             }
+        }
+        
+        function add3DBuildings() {
+            // Agregar capa de edificios 3D con mejor estilización
+            const layers = map.getStyle().layers;
+            const labelLayerId = layers.find(
+                (layer) => layer.type === 'symbol' && layer.layout['text-field']
+            ).id;
+
+            map.addLayer({
+                id: 'add-3d-buildings',
+                source: 'composite',
+                'source-layer': 'building',
+                filter: ['==', 'extrude', 'true'],
+                type: 'fill-extrusion',
+                minzoom: 15,
+                paint: {
+                    'fill-extrusion-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'height'],
+                        0, '#e3f2fd',
+                        50, '#bbdefb',
+                        100, '#90caf9',
+                        200, '#64b5f6'
+                    ],
+                    'fill-extrusion-height': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15, 0,
+                        15.05, ['get', 'height']
+                    ],
+                    'fill-extrusion-base': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        15, 0,
+                        15.05, ['get', 'min_height']
+                    ],
+                    'fill-extrusion-opacity': 0.8
+                }
+            }, labelLayerId);
         }
         
         function addPointsOfInterest() {
-            // Puntos de interés en Chía
+            // Puntos de interés detallados de Chía
             const pois = [
                 {
                     name: "Centro de Chía",
-                    position: [-74.0606, 4.8644, 2564],
-                    description: "Centro del municipio de Chía"
+                    coords: [-74.0606, 4.8644],
+                    type: "🏛️",
+                    description: "Centro histórico del municipio de Chía",
+                    details: "Plaza principal y alcaldía municipal"
                 },
                 {
                     name: "Centro Comercial Centro Chía",
-                    position: [-74.0580, 4.8620, 2570],
-                    description: "Principal centro comercial"
+                    coords: [-74.0580, 4.8620],
+                    type: "🛍️",
+                    description: "Principal centro comercial de Chía",
+                    details: "Tiendas, restaurantes y entretenimiento"
                 },
                 {
                     name: "Universidad de La Sabana",
-                    position: [-74.0342, 4.8609, 2580],
-                    description: "Institución educativa privada"
+                    coords: [-74.0342, 4.8609],
+                    type: "🎓",
+                    description: "Prestigiosa institución educativa privada",
+                    details: "Campus universitario con múltiples facultades"
                 },
                 {
                     name: "Parque Principal",
-                    position: [-74.0606, 4.8650, 2565],
-                    description: "Parque central de Chía"
+                    coords: [-74.0606, 4.8650],
+                    type: "🌳",
+                    description: "Parque central de Chía",
+                    details: "Área verde para recreación familiar"
+                },
+                {
+                    name: "Hospital de Chía",
+                    coords: [-74.0590, 4.8610],
+                    type: "🏥",
+                    description: "Centro de salud principal",
+                    details: "Servicios médicos especializados"
+                },
+                {
+                    name: "Estadio Municipal",
+                    coords: [-74.0625, 4.8680],
+                    type: "⚽",
+                    description: "Complejo deportivo municipal",
+                    details: "Fútbol y actividades deportivas"
                 }
             ];
             
-            pois.forEach(poi => {
-                viewer.entities.add({
-                    name: poi.name,
-                    position: Cesium.Cartesian3.fromDegrees(poi.position[0], poi.position[1], poi.position[2]),
-                    billboard: {
-                        image: 'data:image/svg+xml;base64,' + btoa(`
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-                                <circle cx="24" cy="24" r="20" fill="#FF6B6B" stroke="white" stroke-width="3"/>
-                                <circle cx="24" cy="24" r="8" fill="white"/>
-                            </svg>
-                        `),
-                        scale: 1.0,
-                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-                    },
-                    label: {
-                        text: poi.name,
-                        font: '14pt sans-serif',
-                        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                        fillColor: Cesium.Color.WHITE,
-                        outlineColor: Cesium.Color.BLACK,
-                        outlineWidth: 2,
-                        verticalOrigin: Cesium.VerticalOrigin.TOP,
-                        pixelOffset: new Cesium.Cartesian2(0, 10)
-                    },
-                    description: `<h3>${poi.name}</h3><p>${poi.description}</p>`
-                });
+            pois.forEach((poi, index) => {
+                // Crear elemento HTML personalizado para el marcador
+                const markerElement = document.createElement('div');
+                markerElement.innerHTML = `
+                    <div style="
+                        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                        color: white;
+                        padding: 8px 12px;
+                        border-radius: 20px;
+                        font-size: 14px;
+                        font-weight: bold;
+                        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        border: 2px solid white;
+                    " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        ${poi.type} ${poi.name}
+                    </div>
+                `;
+                
+                const popup = new mapboxgl.Popup({ 
+                    offset: 25,
+                    closeButton: true,
+                    closeOnClick: true
+                }).setHTML(`
+                    <div style="padding: 12px; min-width: 200px;">
+                        <h3 style="color: #333; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            ${poi.type} ${poi.name}
+                        </h3>
+                        <p style="color: #666; margin-bottom: 8px;">${poi.description}</p>
+                        <p style="color: #888; font-size: 0.9em; font-style: italic;">${poi.details}</p>
+                        <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                        <small style="color: #999;">
+                            📍 ${poi.coords[1].toFixed(4)}°N, ${Math.abs(poi.coords[0]).toFixed(4)}°O
+                        </small>
+                    </div>
+                `);
+                
+                const marker = new mapboxgl.Marker(markerElement)
+                    .setLngLat(poi.coords)
+                    .setPopup(popup)
+                    .addTo(map);
+                
+                markers.push(marker);
             });
         }
         
-        function setupVisualEffects() {
-            // Efectos de atmósfera y iluminación
-            viewer.scene.globe.enableLighting = true;
-            viewer.scene.globe.atmosphereHueShift = 0.1;
-            viewer.scene.globe.atmosphereSaturationShift = 0.1;
-            viewer.scene.globe.atmosphereBrightnessShift = 0.1;
+        function addVisualEffects() {
+            // Agregar capa de calor para zonas de actividad
+            map.addSource('activity-heat', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: [
+                        {
+                            type: 'Feature',
+                            properties: { intensity: 0.8 },
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [-74.0580, 4.8620] // Centro Comercial
+                            }
+                        },
+                        {
+                            type: 'Feature',
+                            properties: { intensity: 0.6 },
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [-74.0342, 4.8609] // Universidad
+                            }
+                        }
+                    ]
+                }
+            });
             
-            // Configurar el sol
-            viewer.scene.globe.showGroundAtmosphere = true;
-            viewer.scene.skyAtmosphere.show = true;
+            map.addLayer({
+                id: 'activity-heat',
+                type: 'heatmap',
+                source: 'activity-heat',
+                maxzoom: 16,
+                paint: {
+                    'heatmap-weight': ['get', 'intensity'],
+                    'heatmap-intensity': 0.4,
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0, 'rgba(33,102,172,0)',
+                        0.2, 'rgb(103,169,207)',
+                        0.4, 'rgb(209,229,240)',
+                        0.6, 'rgb(253,219,199)',
+                        0.8, 'rgb(239,138,98)',
+                        1, 'rgb(178,24,43)'
+                    ],
+                    'heatmap-radius': 50
+                }
+            });
         }
         
         // Funciones de control
         function flyToChia() {
-            viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(-74.0606, 4.8644, 10000),
-                orientation: {
-                    heading: Cesium.Math.toRadians(0),
-                    pitch: Cesium.Math.toRadians(-45),
-                    roll: 0.0
-                },
-                duration: 3.0
+            map.flyTo({
+                center: chiaCenter,
+                zoom: 14,
+                pitch: 45,
+                bearing: -17.6,
+                duration: 2500,
+                essential: true
             });
-        }
-        
-        function toggleTerrain() {
-            terrainEnabled = !terrainEnabled;
-            if (terrainEnabled) {
-                viewer.terrainProvider = Cesium.createWorldTerrain({
-                    requestWaterMask: true,
-                    requestVertexNormals: true
-                });
-            } else {
-                viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
-            }
-        }
-        
-        function changeImagery() {
-            currentImageryIndex = (currentImageryIndex + 1) % imageryProviders.length;
-            viewer.imageryLayers.removeAll();
-            viewer.imageryLayers.addImageryProvider(imageryProviders[currentImageryIndex].provider);
         }
         
         function toggle3D() {
             is3DMode = !is3DMode;
+            const btn = document.getElementById('btn3D');
+            
             if (is3DMode) {
-                viewer.scene.mode = Cesium.SceneMode.SCENE3D;
+                map.easeTo({
+                    pitch: 60,
+                    bearing: -17.6,
+                    duration: 1500
+                });
+                btn.textContent = '🗺️ Vista 2D';
+                btn.classList.add('active');
             } else {
-                viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
+                map.easeTo({
+                    pitch: 0,
+                    bearing: 0,
+                    duration: 1500
+                });
+                btn.textContent = '🌍 Vista 3D';
+                btn.classList.remove('active');
             }
         }
         
-        function showError(message) {
-            const errorScreen = document.createElement('div');
-            errorScreen.className = 'error-screen';
-            errorScreen.innerHTML = `
-                <h2>⚠️ Error</h2>
-                <p>${message}</p>
-                <button onclick="location.reload()" style="
-                    background: white;
-                    color: #dc3545;
-                    border: none;
-                    padding: 12px 24px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    margin-top: 20px;
-                    font-weight: bold;
-                ">Recargar Página</button>
+        function toggleSatellite() {
+            isSatellite = !isSatellite;
+            const btn = document.getElementById('btnSatellite');
+            
+            if (isSatellite) {
+                map.setStyle('mapbox://styles/mapbox/satellite-streets-v12');
+                btn.textContent = '🗺️ Vista Calles';
+                btn.classList.add('active');
+            } else {
+                map.setStyle('mapbox://styles/mapbox/outdoors-v12');
+                btn.textContent = '🛰️ Vista Satélite';
+                btn.classList.remove('active');
+            }
+            
+            // Reagregar capas después del cambio de estilo
+            map.once('styledata', function() {
+                setTimeout(() => {
+                    add3DBuildings();
+                    addVisualEffects();
+                }, 500);
+            });
+        }
+        
+        function toggleTraffic() {
+            isTrafficVisible = !isTrafficVisible;
+            const btn = document.getElementById('btnTraffic');
+            
+            if (isTrafficVisible) {
+                map.addSource('mapbox-traffic', {
+                    type: 'vector',
+                    url: 'mapbox://mapbox.mapbox-traffic-v1'
+                });
+                
+                map.addLayer({
+                    id: 'traffic',
+                    type: 'line',
+                    source: 'mapbox-traffic',
+                    'source-layer': 'traffic',
+                    paint: {
+                        'line-width': 3,
+                        'line-color': [
+                            'case',
+                            ['==', ['get', 'congestion'], 'low'], '#34D399',
+                            ['==', ['get', 'congestion'], 'moderate'], '#FBBF24',
+                            ['==', ['get', 'congestion'], 'heavy'], '#EF4444',
+                            '#9CA3AF'
+                        ]
+                    }
+                });
+                btn.textContent = '🚫 Ocultar Tráfico';
+                btn.classList.add('active');
+            } else {
+                if (map.getLayer('traffic')) {
+                    map.removeLayer('traffic');
+                    map.removeSource('mapbox-traffic');
+                }
+                btn.textContent = '🚗 Mostrar Tráfico';
+                btn.classList.remove('active');
+            }
+        }
+        
+        function addCustomMarker() {
+            map.getCanvas().style.cursor = 'crosshair';
+            
+            const instruction = document.createElement('div');
+            instruction.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                z-index: 1000;
+                font-size: 16px;
             `;
-            document.body.appendChild(errorScreen);
+            instruction.textContent = '📌 Haz clic en el mapa para agregar un marcador personalizado';
+            document.body.appendChild(instruction);
+            
+            const clickHandler = function(e) {
+                const customMarker = new mapboxgl.Marker({
+                    color: '#9C27B0',
+                    scale: 1.2
+                })
+                .setLngLat(e.lngLat)
+                .setPopup(new mapboxgl.Popup().setHTML(`
+                    <div style="padding: 10px;">
+                        <h4>📌 Marcador Personalizado</h4>
+                        <p>Ubicación personalizada en Chía</p>
+                        <small>Lat: ${e.lngLat.lat.toFixed(4)}°<br>
+                        Lng: ${e.lngLat.lng.toFixed(4)}°</small>
+                    </div>
+                `))
+                .addTo(map);
+                
+                markers.push(customMarker);
+                map.getCanvas().style.cursor = '';
+                document.body.removeChild(instruction);
+                map.off('click', clickHandler);
+            };
+            
+            map.once('click', clickHandler);
+        }
+        
+        function showError() {
+            document.getElementById('loadingScreen').innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #FF6B6B;">⚠️ Error de Conexión</h2>
+                    <p>No se pudo cargar el mapa 3D</p>
+                    <p>Verifica tu conexión a internet</p>
+                    <button onclick="location.reload()" style="
+                        background: white;
+                        color: #667eea;
+                        border: none;
+                        padding: 12px 24px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        margin-top: 20px;
+                        font-weight: bold;
+                    ">🔄 Reintentar</button>
+                </div>
+            `;
         }
         
         // Inicializar cuando la página se carga
         window.addEventListener('load', () => {
-            setTimeout(initializeCesium, 500);
-        });
-        
-        // Manejar errores globales
-        window.addEventListener('error', function(e) {
-            console.error('Error global:', e);
-            showError('Se produjo un error al cargar el mapa. Por favor, recarga la página.');
+            setTimeout(initMap, 500);
         });
         
         // Manejar redimensionamiento
         window.addEventListener('resize', () => {
-            if (viewer) {
-                viewer.resize();
+            if (map) {
+                map.resize();
+            }
+        });
+        
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konami = [38,38,40,40,37,39,37,39,66,65];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konami.length) {
+                konamiCode.shift();
+            }
+            if (konamiCode.toString() === konami.toString()) {
+                map.flyTo({
+                    center: chiaCenter,
+                    zoom: 18,
+                    pitch: 75,
+                    bearing: 360,
+                    duration: 5000
+                });
+                konamiCode = [];
             }
         });
     </script>
