@@ -1,0 +1,36 @@
+﻿# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+bower_components/
+
+# Cache
+.npm
+*.tgz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Build directories
+/dist
+/build
+/out
+
+# Environment files
+.env
+.env.local
+
+# Backup files
+*.bak
+*.backup
+*.tmp

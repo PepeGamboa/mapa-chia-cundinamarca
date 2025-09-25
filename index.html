@@ -1,18 +1,1010 @@
-# Crear el archivo index.html
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Interactivo de Chía, Cundinamarca</title>
+    <meta name="description" content="Mapa interactivo 3D de Chía, Cundinamarca - Explora en 2D y 3D">
+    <meta name="keywords" content="Chía, Cundinamarca, Colombia, mapa 3D, CesiumJS, Leaflet">
+    <meta name="author" content="PepeGamboa">
+    
+    <title>Mapa 3D Interactivo - Chía, Cundinamarca</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+    
+    <!-- CesiumJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.109.0/Cesium.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.109.0/Widgets/widgets.min.css" rel="stylesheet">
+    
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #3498db;
+            --primary-dark: #2c3e50;
+            --primary-red: #e74c3c;
+            --light-gray: #ecf0f1;
+            --dark-gray: #7f8c8d;
+            --white: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.2);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-button: linear-gradient(45deg, #3498db, #2980b9);
+            --gradient-danger: linear-gradient(45deg, #e74c3c, #c0392b);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--gradient-primary);
+            height: 100vh;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 30px;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            z-index: 1000;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: var(--primary-dark);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin: 0;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px var(--shadow-light);
+        }
+
+        .header p {
+            color: var(--dark-gray);
+            text-align: center;
+            margin-top: 8px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 400;
+        }
+
+        .github-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .github-link:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .controls {
+            position: absolute;
+            top: 140px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-medium);
+            max-width: 320px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            margin: 6px 3px;
+            border: none;
+            border-radius: 25px;
+            background: var(--gradient-button);
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            min-width: 120px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn.active {
+            background: var(--gradient-danger);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn.active:hover {
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5);
+        }
+
+        .coordinate-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .coordinate-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background: var(--white);
+        }
+
+        .coordinate-input::placeholder {
+            color: var(--dark-gray);
+            font-style: italic;
+        }
+
+        #mapContainer {
+            height: calc(100vh - 140px);
+            position: relative;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+            box-shadow: inset 0 4px 20px var(--shadow-light);
+        }
+
+        #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #leafletContainer {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .location-info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px var(--shadow-medium);
+            max-width: 320px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .location-info h3 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .location-info p {
+            color: var(--dark-gray);
+            margin: 8px 0;
+            font-size: 0.9rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--white);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .controls {
+                position: fixed;
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: 400px;
+                max-height: 40vh;
+                overflow-y: auto;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .github-link {
+                position: static;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            
+            #mapContainer {
+                height: calc(100vh - 120px);
+            }
+            
+            .location-info {
+                position: fixed;
+                top: 120px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+                min-width: 100px;
+            }
+            
+            .controls {
+                padding: 20px;
+            }
+        }
+
+        /* Animaciones de entrada */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos para marcador personalizado en Leaflet */
+        .casa-marker {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            text-align: center;
+            line-height: 1;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+    </style>
 </head>
 <body>
-    <h1>🗺️ Mapa Interactivo de Chía, Cundinamarca</h1>
-    <p>Sitio en construcción...</p>
-    <ul>
-        <li><a href="mapa_chia_moderno.html">Mapa Moderno</a></li>
-        <li><a href="mapa_zonificacion_chia.html">Zonificación</a></li>
-        <li><a href="https://github.com/PepeGamboa/mapa-chia-cundinamarca">Ver código en GitHub</a></li>
-    </ul>
+    <!-- Loading Screen -->
+    <div class="loading" id="loadingScreen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h2>Cargando Mapa 3D de Chía...</h2>
+            <p>Preparando visualización interactiva</p>
+        </div>
+    </div>
+
+    <div class="header fade-in">
+        <a href="https://github.com/PepeGamboa/Bogota-3D" target="_blank" class="github-link" title="Ver en GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
+        <h1>🌍 Mapa 3D Interactivo de Chía</h1>
+        <p>Explora Chía, Cundinamarca en vista 2D y 3D | Visualización interactiva avanzada</p>
+    </div>
+
+    <div class="controls fade-in">
+        <div class="control-group">
+            <label>🎛️ Modo de Visualización:</label>
+            <button class="btn active" onclick="switchTo3D()" id="btn3D">🌍 Vista 3D</button>
+            <button class="btn" onclick="switchTo2D()" id="btn2D">🗺️ Vista 2D</button>
+        </div>
+        
+        <div class="control-group">
+            <label>📍 Marcar Mi Ubicación:</label>
+            <input type="number" id="latInput" class="coordinate-input" placeholder="Latitud (ej: 4.8614)" step="any" min="-90" max="90">
+            <input type="number" id="lngInput" class="coordinate-input" placeholder="Longitud (ej: -74.0589)" step="any" min="-180" max="180">
+            <button class="btn" onclick="marcarCasa()">🏠 Marcar Casa</button>
+        </div>
+        
+        <div class="control-group">
+            <button class="btn" onclick="volarAChia()">🎯 Centrar en Chía</button>
+            <button class="btn" onclick="limpiarMarcadores()">🗑️ Limpiar Todo</button>
+        </div>
+    </div>
+
+    <div id="mapContainer">
+        <div id="cesiumContainer"></div>
+        <div id="leafletContainer"></div>
+    </div>
+
+    <div class="location-info fade-in" id="locationInfo">
+        <h3>📊 Información de Ubicación</h3>
+        <p id="coordenadas">Haz clic en el mapa para ver coordenadas</p>
+        <p id="elevacion"></p>
+        <p id="municipio">Chía, Cundinamarca, Colombia</p>
+    </div>
+
+    <script>
+        // Configuración global
+        const CONFIG = {
+            // Token público de Cesium (reemplazar con tu propio token en producción)
+            CESIUM_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1NGNkYi1hNjY4LTQwNjMtODNkOS1kMzI5MzJmOGU3NjIiLCJpZCI6MjU5LCJzY29wZXMiOlsiYXNyIiwiZ2MiXSwiaWF0IjoxNTQ4MDc4NDk4fQ.example',
+            
+            // Coordenadas de Chía, Cundinamarca
+            CHIA_CENTER: {
+                lat: 4.8614,
+                lng: -74.0589,
+                alt: 2652,
+                zoom2D: 13,
+                zoom3D: 5000
+            },
+            
+            // Límites de Colombia para validación
+            COLOMBIA_BOUNDS: {
+                north: 15.5,
+                south: -4.2,
+                east: -66.8,
+                west: -81.8
+            }
+        };
+
+        // Variables globales
+        let viewer;
+        let leafletMap;
+        let currentMode = '3D';
+        let casaMarcador;
+        let casaEntity;
+        let isInitialized = false;
+
+        // Utilidades
+        const Utils = {
+            // Validar coordenadas dentro de Colombia
+            isValidColombianCoordinate(lat, lng) {
+                return lat >= CONFIG.COLOMBIA_BOUNDS.south && 
+                       lat <= CONFIG.COLOMBIA_BOUNDS.north &&
+                       lng >= CONFIG.COLOMBIA_BOUNDS.west && 
+                       lng <= CONFIG.COLOMBIA_BOUNDS.east;
+            },
+
+            // Mostrar notificación
+            showNotification(message, type = 'info') {
+                // Implementación simple con alert (mejorar con toast en versión futura)
+                alert(message);
+            },
+
+            // Formatear coordenadas
+            formatCoordinate(coord, decimals = 6) {
+                return parseFloat(coord).toFixed(decimals);
+            },
+
+            // Ocultar pantalla de carga
+            hideLoading() {
+                const loading = document.getElementById('loadingScreen');
+                loading.style.opacity = '0';
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                }, 500);
+            },
+
+            // Actualizar información de ubicación
+            updateLocationInfo(lat, lng, elevation = null, customText = null) {
+                const coordElement = document.getElementById('coordenadas');
+                const elevElement = document.getElementById('elevacion');
+                
+                const coordText = customText || `Lat: ${this.formatCoordinate(lat)}, Lng: ${this.formatCoordinate(lng)}`;
+                coordElement.textContent = coordText;
+                
+                if (elevation !== null) {
+                    elevElement.textContent = `Elevación: ${Math.round(elevation)}m sobre el nivel del mar`;
+                } else {
+                    elevElement.textContent = currentMode === '2D' ? 'Elevación: N/A en vista 2D' : '';
+                }
+            }
+        };
+
+        // Inicialización de la aplicación
+        async function initApp() {
+            try {
+                console.log('🚀 Iniciando aplicación...');
+                
+                // Configurar token de Cesium
+                Cesium.Ion.defaultAccessToken = CONFIG.CESIUM_TOKEN;
+                
+                // Inicializar mapas
+                await Promise.all([
+                    init3D(),
+                    init2D()
+                ]);
+
+                // Configurar coordenadas predeterminadas
+                document.getElementById('latInput').value = CONFIG.CHIA_CENTER.lat;
+                document.getElementById('lngInput').value = CONFIG.CHIA_CENTER.lng;
+                
+                // Centrar en Chía
+                volarAChia();
+                
+                isInitialized = true;
+                Utils.hideLoading();
+                
+                console.log('✅ Aplicación inicializada correctamente');
+                
+            } catch (error) {
+                console.error('❌ Error inicializando aplicación:', error);
+                Utils.showNotification('Error al cargar el mapa. Por favor, recarga la página.', 'error');
+                Utils.hideLoading();
+            }
+        }
+
+        // Inicializar vista 3D con Cesium
+        async function init3D() {
+            try {
+                viewer = new Cesium.Viewer('cesiumContainer', {
+                    // Configuración optimizada
+                    terrainProvider: await Cesium.createWorldTerrainAsync(),
+                    imageryProvider: new Cesium.OpenStreetMapImageryProvider({
+                        url: 'https://{s}.tile.openstreetmap.org/',
+                        fileExtension: 'png'
+                    }),
+                    
+                    // UI Configuration
+                    baseLayerPicker: false,
+                    geocoder: true,
+                    homeButton: true,
+                    sceneModePicker: true,
+                    navigationHelpButton: false,
+                    animation: false,
+                    timeline: false,
+                    fullscreenButton: true,
+                    vrButton: false,
+                    
+                    // Rendimiento
+                    requestRenderMode: true,
+                    maximumRenderTimeChange: Infinity
+                });
+
+                // Configurar la escena
+                viewer.scene.globe.enableLighting = true;
+                viewer.scene.globe.dynamicAtmosphereLighting = true;
+                viewer.scene.globe.dynamicAtmosphereLightingFromSun = false;
+
+                // Event handlers para el mapa 3D
+                viewer.cesiumWidget.screenSpaceEventHandler.setInputAction(
+                    handle3DClick,
+                    Cesium.ScreenSpaceEventType.LEFT_CLICK
+                );
+
+                // Intentar cargar edificios 3D
+                try {
+                    const osmBuildingsTileset = await Cesium.Cesium3DTileset.fromIonAssetId(96188);
+                    viewer.scene.primitives.add(osmBuildingsTileset);
+                    console.log('✅ Edificios 3D cargados');
+                } catch (buildingError) {
+                    console.warn('⚠️ No se pudieron cargar los edificios 3D:', buildingError);
+                }
+
+                console.log('✅ Vista 3D inicializada');
+                
+            } catch (error) {
+                console.error('❌ Error inicializando vista 3D:', error);
+                throw error;
+            }
+        }
+
+        // Inicializar vista 2D con Leaflet
+        function init2D() {
+            try {
+                leafletMap = L.map('leafletContainer', {
+                    zoomControl: true,
+                    attributionControl: true
+                }).setView([CONFIG.CHIA_CENTER.lat, CONFIG.CHIA_CENTER.lng], CONFIG.CHIA_CENTER.zoom2D);
+
+                // Añadir capa base
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://github.com/PepeGamboa/Bogota-3D">PepeGamboa</a>',
+                    maxZoom: 19,
+                    minZoom: 1
+                }).addTo(leafletMap);
+
+                // Event handler para el mapa 2D
+                leafletMap.on('click', handle2DClick);
+
+                console.log('✅ Vista 2D inicializada');
+                
+            } catch (error) {
+                console.error('❌ Error inicializando vista 2D:', error);
+                throw error;
+            }
+        }
+
+        // Manejador de clics en 3D
+        function handle3DClick(event) {
+            const pickedPosition = viewer.camera.pickEllipsoid(event.position, viewer.scene.globe.ellipsoid);
+            if (pickedPosition) {
+                const cartographic = Cesium.Cartographic.fromCartesian(pickedPosition);
+                const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+                const height = cartographic.height;
+
+                Utils.updateLocationInfo(latitude, longitude, height);
+            }
+        }
+
+        // Manejador de clics en 2D
+        function handle2DClick(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            Utils.updateLocationInfo(lat, lng);
+        }
+
+        // Cambiar a vista 3D
+        function switchTo3D() {
+            if (currentMode === '3D' || !isInitialized) return;
+
+            currentMode = '3D';
+            document.getElementById('cesiumContainer').style.display = 'block';
+            document.getElementById('leafletContainer').style.display = 'none';
+
+            updateButtonStates();
+            
+            // Redimensionar Leaflet
+            setTimeout(() => {
+                if (leafletMap) {
+                    leafletMap.invalidateSize();
+                }
+            }, 100);
+
+            console.log('📍 Cambiado a vista 2D');
+        }
+
+        // Actualizar estado de botones
+        function updateButtonStates() {
+            const btn3D = document.getElementById('btn3D');
+            const btn2D = document.getElementById('btn2D');
+            
+            btn3D.classList.remove('active');
+            btn2D.classList.remove('active');
+
+            if (currentMode === '3D') {
+                btn3D.classList.add('active');
+            } else {
+                btn2D.classList.add('active');
+            }
+        }
+
+        // Volar/centrar en Chía
+        function volarAChia() {
+            if (!isInitialized) return;
+
+            if (currentMode === '3D' && viewer) {
+                viewer.camera.flyTo({
+                    destination: Cesium.Cartesian3.fromDegrees(
+                        CONFIG.CHIA_CENTER.lng, 
+                        CONFIG.CHIA_CENTER.lat, 
+                        CONFIG.CHIA_CENTER.zoom3D
+                    ),
+                    duration: 2.5,
+                    complete: () => {
+                        Utils.updateLocationInfo(
+                            CONFIG.CHIA_CENTER.lat, 
+                            CONFIG.CHIA_CENTER.lng, 
+                            CONFIG.CHIA_CENTER.alt,
+                            `Centro de Chía - Lat: ${CONFIG.CHIA_CENTER.lat}, Lng: ${CONFIG.CHIA_CENTER.lng}`
+                        );
+                    }
+                });
+            } else if (currentMode === '2D' && leafletMap) {
+                leafletMap.flyTo([CONFIG.CHIA_CENTER.lat, CONFIG.CHIA_CENTER.lng], CONFIG.CHIA_CENTER.zoom2D, {
+                    duration: 2.5
+                });
+                Utils.updateLocationInfo(
+                    CONFIG.CHIA_CENTER.lat, 
+                    CONFIG.CHIA_CENTER.lng, 
+                    null,
+                    `Centro de Chía - Lat: ${CONFIG.CHIA_CENTER.lat}, Lng: ${CONFIG.CHIA_CENTER.lng}`
+                );
+            }
+
+            console.log('🎯 Centrado en Chía');
+        }
+
+        // Marcar casa del usuario
+        function marcarCasa() {
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
+            
+            const lat = parseFloat(latInput.value);
+            const lng = parseFloat(lngInput.value);
+
+            // Validaciones
+            if (isNaN(lat) || isNaN(lng)) {
+                Utils.showNotification('❌ Por favor, ingresa coordenadas válidas (números decimales)');
+                return;
+            }
+
+            if (lat < -90 || lat > 90) {
+                Utils.showNotification('❌ La latitud debe estar entre -90 y 90 grados');
+                return;
+            }
+
+            if (lng < -180 || lng > 180) {
+                Utils.showNotification('❌ La longitud debe estar entre -180 y 180 grados');
+                return;
+            }
+
+            if (!Utils.isValidColombianCoordinate(lat, lng)) {
+                const confirmOutside = confirm(
+                    '⚠️ Las coordenadas parecen estar fuera de Colombia.\n' +
+                    '¿Deseas continuar de todos modos?'
+                );
+                if (!confirmOutside) return;
+            }
+
+            // Limpiar marcadores anteriores
+            limpiarMarcadores();
+
+            if (currentMode === '3D' && viewer) {
+                marcarCasa3D(lat, lng);
+            } else if (currentMode === '2D' && leafletMap) {
+                marcarCasa2D(lat, lng);
+            }
+
+            // Actualizar información
+            Utils.updateLocationInfo(lat, lng, null, `🏠 Mi Casa - Lat: ${Utils.formatCoordinate(lat)}, Lng: ${Utils.formatCoordinate(lng)}`);
+            
+            console.log(`📍 Casa marcada en: ${lat}, ${lng}`);
+            Utils.showNotification('🏠 ¡Ubicación de tu casa marcada exitosamente!');
+        }
+
+        // Marcar casa en vista 3D
+        function marcarCasa3D(lat, lng) {
+            casaEntity = viewer.entities.add({
+                position: Cesium.Cartesian3.fromDegrees(lng, lat),
+                billboard: {
+                    image: createHouseIcon(),
+                    scale: 1.8,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    disableDepthTestDistance: Number.POSITIVE_INFINITY
+                },
+                label: {
+                    text: '🏠 Mi Casa',
+                    font: '18px Arial Black',
+                    fillColor: Cesium.Color.WHITE,
+                    outlineColor: Cesium.Color.BLACK,
+                    outlineWidth: 3,
+                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    verticalOrigin: Cesium.VerticalOrigin.TOP,
+                    pixelOffset: new Cesium.Cartesian2(0, -60),
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                    scaleByDistance: new Cesium.NearFarScalar(100, 1.0, 10000, 0.5)
+                }
+            });
+
+            // Volar a la ubicación
+            viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(lng, lat, 1500),
+                duration: 3.0,
+                orientation: {
+                    heading: Cesium.Math.toRadians(0),
+                    pitch: Cesium.Math.toRadians(-45),
+                    roll: 0.0
+                }
+            });
+        }
+
+        // Marcar casa en vista 2D
+        function marcarCasa2D(lat, lng) {
+            const casaIcon = L.divIcon({
+                html: `
+                    <div style="
+                        background: linear-gradient(45deg, #e74c3c, #c0392b);
+                        color: white;
+                        border-radius: 50%;
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 20px;
+                        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+                        border: 3px solid white;
+                        position: relative;
+                    ">🏠</div>
+                `,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+                popupAnchor: [0, -20],
+                className: 'casa-marker-custom'
+            });
+
+            casaMarcador = L.marker([lat, lng], {icon: casaIcon})
+                .addTo(leafletMap)
+                .bindPopup(`
+                    <div style="text-align: center; padding: 10px;">
+                        <h3 style="margin: 0 0 10px 0; color: #2c3e50;">🏠 Mi Casa</h3>
+                        <p style="margin: 5px 0; font-family: monospace;"><strong>Latitud:</strong> ${Utils.formatCoordinate(lat)}</p>
+                        <p style="margin: 5px 0; font-family: monospace;"><strong>Longitud:</strong> ${Utils.formatCoordinate(lng)}</p>
+                        <p style="margin: 10px 0 0 0; color: #7f8c8d; font-size: 0.9em;">Chía, Cundinamarca, Colombia</p>
+                    </div>
+                `, {
+                    maxWidth: 250,
+                    className: 'custom-popup'
+                })
+                .openPopup();
+
+            // Centrar en la ubicación con animación
+            leafletMap.flyTo([lat, lng], 17, {
+                duration: 2.5
+            });
+        }
+
+        // Crear ícono de casa personalizado para Cesium
+        function createHouseIcon() {
+            const canvas = document.createElement('canvas');
+            const size = 64;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Fondo circular
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 4, 0, 2 * Math.PI);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Emoji de casa
+            ctx.font = '32px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🏠', size/2, size/2);
+
+            return canvas.toDataURL();
+        }
+
+        // Limpiar marcadores
+        function limpiarMarcadores() {
+            // Limpiar en vista 3D
+            if (casaEntity && viewer) {
+                viewer.entities.remove(casaEntity);
+                casaEntity = null;
+            }
+
+            // Limpiar en vista 2D
+            if (casaMarcador && leafletMap) {
+                leafletMap.removeLayer(casaMarcador);
+                casaMarcador = null;
+            }
+
+            // Resetear información
+            Utils.updateLocationInfo(
+                CONFIG.CHIA_CENTER.lat, 
+                CONFIG.CHIA_CENTER.lng, 
+                null, 
+                'Haz clic en el mapa para ver coordenadas'
+            );
+
+            console.log('🗑️ Marcadores eliminados');
+        }
+
+        // Funciones de utilidad adicionales
+        const AdvancedFeatures = {
+            // Obtener información meteorológica (funcionalidad futura)
+            async getWeatherData(lat, lng) {
+                // Placeholder para integración futura con API meteorológica
+                console.log('🌤️ Función de clima pendiente de implementación');
+            },
+
+            // Calcular distancia entre dos puntos
+            calculateDistance(lat1, lng1, lat2, lng2) {
+                const R = 6371; // Radio de la Tierra en km
+                const dLat = this.toRadians(lat2 - lat1);
+                const dLng = this.toRadians(lng2 - lng1);
+                const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                         Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
+                         Math.sin(dLng/2) * Math.sin(dLng/2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                return R * c;
+            },
+
+            toRadians(degrees) {
+                return degrees * (Math.PI / 180);
+            },
+
+            // Exportar coordenadas como JSON
+            exportCoordinates() {
+                const lat = document.getElementById('latInput').value;
+                const lng = document.getElementById('lngInput').value;
+                
+                if (!lat || !lng) {
+                    Utils.showNotification('❌ Primero marca una ubicación');
+                    return;
+                }
+
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    location: {
+                        name: "Mi Casa en Chía",
+                        municipality: "Chía",
+                        department: "Cundinamarca",
+                        country: "Colombia",
+                        coordinates: {
+                            latitude: parseFloat(lat),
+                            longitude: parseFloat(lng),
+                            elevation: CONFIG.CHIA_CENTER.alt
+                        }
+                    },
+                    metadata: {
+                        source: "Mapa 3D Interactivo de Chía",
+                        version: "2.0",
+                        author: "PepeGamboa",
+                        repository: "https://github.com/PepeGamboa/Bogota-3D"
+                    }
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], {
+                    type: 'application/json'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `chia_coordinates_${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                Utils.showNotification('📁 Coordenadas exportadas exitosamente');
+            }
+        };
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 DOM cargado, inicializando aplicación...');
+            
+            // Añadir event listeners para inputs
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
+            
+            [latInput, lngInput].forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        marcarCasa();
+                    }
+                });
+            });
+
+            // Inicializar aplicación
+            initApp();
+        });
+
+        // Manejar redimensionamiento de ventana
+        window.addEventListener('resize', function() {
+            if (viewer && currentMode === '3D') {
+                viewer.resize();
+            }
+            if (leafletMap && currentMode === '2D') {
+                leafletMap.invalidateSize();
+            }
+        });
+
+        // Prevenir errores de JavaScript
+        window.addEventListener('error', function(e) {
+            console.error('❌ Error JavaScript:', e.error);
+        });
+
+        // Debugging helpers (solo en desarrollo)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            window.DebugUtils = {
+                viewer,
+                leafletMap,
+                CONFIG,
+                Utils,
+                AdvancedFeatures
+            };
+            console.log('🔧 Modo desarrollo activado. Accede a DebugUtils en la consola.');
+        }
+    </script>
 </body>
-</html>' > index.html
+</html>
+            
+            // Redimensionar y renderizar
+            setTimeout(() => {
+                if (viewer) {
+                    viewer.resize();
+                    viewer.scene.requestRender();
+                }
+            }, 100);
+
+            console.log('📍 Cambiado a vista 3D');
+        }
+
+        // Cambiar a vista 2D
+        function switchTo2D() {
+            if (currentMode === '2D' || !isInitialized) return;
+
+            currentMode = '2D';
+            document.getElementById('cesiumContainer').style.display = 'none';
+            document.getElementById('leafletContainer').style.display = 'block';
+
+            updateButtonStates();
